@@ -1,0 +1,96 @@
+
+print("Bienvenido a productora sanchez")
+def comprar_entrada(asientos, ventas,rut_compradores):
+ asientos =     {1: 100000, 2: 100000, 3: 100000, 4: 100000, 5: 100000,
+                 6: 100000, 7: 100000, 8: 100000, 9: 100000, 10: 100000,
+                 11: 100000, 12: 100000, 13: 100000, 14: 100000, 15: 100000,
+                 16: 100000, 17: 100000, 18: 100000, 19: 100000, 20: 100000,
+                 21: 50000, 22: 50000, 23: 50000, 24: 50000, 25: 50000,
+                 26: 50000, 27: 50000, 28: 50000, 29: 50000, 30: 50000,
+                 31: 10000, 32: 10000, 33: 10000, 34: 10000, 35: 10000,
+                 36: 10000, 37: 10000, 38: 10000, 39: 10000, 40: 10000,
+                 41: 10000, 42: 10000, 43: 10000, 44: 10000, 45: 10000,
+                 46: 10000, 47: 10000, 48: 10000, 49: 10000, 50: 10000}
+ return asientos
+def mostrar_menu():
+    print("\n--- Menú ---")
+    print("1. Comprar entrada")
+    print("2. Mostrar ubicaciones disponibles")
+    print("3. Mostrar ganancias totales")
+    print("4. Mostrar listado de RUT de los compradores")
+    print("5. Salir")
+
+def comprar_entrada(asientos, ventas,rut_compradores):
+    print("Comprar entrada:")
+    rut = input("Ingrese su RUT: ")
+    if rut not in rut_compradores:
+        rut_compradores[rut] = 0
+    if rut_compradores[rut] >= 2:
+        print("Cada usuario puede comprar un máximo de 2 entradas.")
+        return
+
+    mostrar_ubicaciones(asientos)
+    cantidad = int(input("¿Cuántas entradas desea comprar? (Máximo 2): "))
+    if cantidad > 2:
+        print("No puede comprar más de 2 entradas.")
+
+    for _ in range(cantidad):
+        fila = int(input("Seleccione la fila (0-9): "))
+        columna = int(input("Seleccione la columna (0-4): "))
+        if asientos[fila][columna] == "X":
+            print("El asiento ya está ocupado, elija otro.")
+        else:
+            asientos[fila][columna] = "X"
+            rut_compradores[rut] += 1
+            ventas.append((fila, columna))
+
+def mostrar_ubicaciones(asientos):
+    print("Ubicaciones disponibles:")
+    for fila in range(10):
+        for columna in range(5):
+            print(asientos[fila][columna], end=" ")
+        print()
+
+def calcular_ganancias(ventas):
+    ganancias = 0
+    for (fila, columna) in ventas:
+        asiento_num = fila * 5 + columna + 1
+        if 1 <= asiento_num <= 20:
+            ganancias += 100000
+        elif 21 <= asiento_num <= 30:
+            ganancias += 50000
+        else:
+            ganancias += 10000
+    print(f"Ganancias totales: ${ganancias}")
+
+def mostrar_rut_compradores(rut_compradores):
+    print("Listado de RUT de los compradores:")
+    for rut, count in rut_compradores.items():
+        for _ in range(count):
+            print(rut)
+def main():
+    asientos = [["O" for _ in range(5)] for _ in range(10)]
+    ventas = []
+    rut_compradores = {}
+
+    while True:
+        mostrar_menu()
+        opcion = int(input("Seleccione una opción: "))
+        if opcion == 1:
+            comprar_entrada(asientos, ventas, rut_compradores)
+        elif opcion == 2:
+            mostrar_ubicaciones(asientos)
+        elif opcion == 3:
+            calcular_ganancias(ventas)
+        elif opcion == 4:
+            mostrar_rut_compradores(rut_compradores)
+        elif opcion == 5:
+            print("Saliendo del sistema.")
+            print ("Julian Aros")
+            print ("2024-06-26 20:40:05")
+            break
+        else:
+            print("Opción no válida. Intente nuevamente.")
+
+if __name__ == "__main__":
+    main()
